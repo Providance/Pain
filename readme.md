@@ -1,23 +1,4 @@
-# Tranzactie - PAIN.001 Payment Validation Framework
-
-A comprehensive Java-based payment validation framework for processing and validating PAIN.001.001.11 (ISO 20022) XML payment files using Cucumber BDD testing.
-
-## Overview
-
-This project provides robust validation of PAIN.001 (Customer Credit Transfer Initiation) XML documents with:
-- **7 comprehensive test scenarios** covering IBAN validation, amount reconciliation, date validation, and ISO 20022 compliance
-- **Complete POJO mapping** for XML parsing using Jackson
-- **Cucumber BDD framework** for business-readable payment validation tests
-- **ISO 20022 compliance checks** for payment processing
-
-## Key Features
-
-✅ **IBAN Validation** - ISO 13616 checksum validation for debtor and creditor accounts
-✅ **Payment Amount Validation** - Reconciliation between debtor and credit totals
-✅ **Date Validation** - Ensures payment dates are not in the future
-✅ **ISO 20022 Compliance** - Comprehensive validation of PAIN.001 structure and data
-✅ **BDD Testing** - Human-readable Gherkin scenarios for payment validation
-✅ **Automatic XML Parsing** - Complete POJO structure for pain.001.001.11 format
+# PAIN.001 Payment Validation Framework
 
 ## Quick Start
 
@@ -140,3 +121,97 @@ Scheme: SEPA (Single Euro Payments Area)
 Charge Bearer: SLEV (Shared)
 Batch Processing: Enabled
 ```
+
+## Describe the operation in more details.
+
+### Document Structure Overview
+
+This PAIN.001.001.11 message represents a **Customer Credit Transfer Initiation** - a standardized format for initiating cross-border SEPA payments.
+
+### Message Header (GrpHdr - Group Header)
+
+**Details:**
+- **Message ID**: DEUTDEBBXXX0020240220042409
+  - Bank code: DEUTDEBBXXX (Deutsche Bank)
+  - Unique identifier for this payment file
+- **Creation Date/Time**: 2024-02-20T04:24:09.000Z (ISO 8601 format)
+- **Number of Transactions**: 3 (total credit transfers in this message)
+- **Control Sum**: 8000.2 EUR (total amount of all payments)
+- **Initiating Party**: Joe Doe (the debtor/payer initiating the transfers)
+
+### Payment Information (PmtInf - Payment Information Block)
+
+**Payment Details:**
+
+| Field | Value | Meaning |
+|-------|-------|---------|
+| **Payment Info ID** | PMT-ID0-20240220042409 | Unique ID for this payment batch |
+| **Payment Method** | TRF | Credit Transfer |
+| **Batch Booking** | true | All transactions processed together |
+| **Number of Transactions** | 3 | Three separate credit transfers |
+| **Control Sum** | 8000.2 EUR | Total amount across all transactions |
+| **Service Level** | SEPA | Single Euro Payments Area scheme |
+| **Execution Date** | 2024-02-20 | When payments should be executed |
+| **Charge Bearer** | SLEV | Shared (debtor pays bank charges) |
+
+**Debtor Information:**
+- **Name**: Joe Doe
+- **IBAN**: DE89370400440532013000 (German account)
+- **Bank**: DEUTDEBBXXX (Deutsche Bank Frankfurt)
+
+### Credit Transfer Transactions
+
+#### Transaction 1: Peter Parker (Germany)
+- **Amount**: 2000.2 EUR
+- **Creditor IBAN**: DE05500105173195282731
+- **Creditor Bank**: VBRSDE33347 (Volksbank Rhein-Sieg)
+- **Reference**: "Salary PP 2018-07"
+
+#### Transaction 2: Carl White (Denmark)
+- **Amount**: 1000.0 EUR
+- **Creditor IBAN**: DK5250511963137134
+- **Creditor Bank**: UINVDEFFXXX (UniCredit Frankfurt)
+- **Reference**: "Salary CW 2015-12"
+
+#### Transaction 3: Frank Black (Czech Republic)
+- **Amount**: 5000.0 EUR
+- **Creditor IBAN**: CZ7627005991764514418145
+- **Creditor Bank**: SWBSDESSXXX (Südwestbank Stuttgart)
+- **Reference**: "Salary FB 2017-05"
+
+### Payment Flow & Processing
+
+```
+Step 1: Initiation
+  └─ Joe Doe creates payment file on 2024-02-20
+
+Step 2: Validation
+  └─ Total amount: 2000.2 + 1000.0 + 5000.0 = 8000.2 EUR ✓
+  └─ All IBANs valid and checksummed
+
+Step 3: Submission to Bank
+  └─ Deutsche Bank (DEUTDEBBXXX) receives the file
+
+Step 4: Processing
+  └─ Bank debits Joe Doe's account: 8000.2 EUR
+  └─ Bank processes 3 separate SEPA transactions
+
+Step 5: Settlement
+  └─ Peter Parker's bank: receives 2000.2 EUR
+  └─ Carl White's bank: receives 1000.0 EUR
+  └─ Frank Black's bank: receives 5000.0 EUR
+
+Step 6: Completion
+  └─ Expected execution date: 2024-02-20 (or next business day)
+```
+
+### IBAN Validation
+
+All IBANs use the ISO 13616 standard with mod-97 checksum:
+
+| Party | IBAN | Country | Length | Valid |
+|-------|------|---------|--------|-------|
+| Joe Doe (Debtor) | DE89370400440532013000 | Germany | 22 | ✅ |
+| Peter Parker | DE05500105173195282731 | Germany | 22 | ✅ |
+| Carl White | DK5250511963137134 | Denmark | 18 | ✅ |
+| Frank Black | CZ7627005991764514418145 | Czech Republic | 24 | ✅ |
