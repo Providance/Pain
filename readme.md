@@ -1,5 +1,29 @@
 # PAIN.001 Payment Validation Framework
 
+## Technologies
+
+- **Java 26** - Core language
+- **Cucumber 7.14.0** - BDD framework
+- **JUnit 5** - Testing framework
+- **Jackson 2.17.0** - XML parsing
+- **Maven** - Build management
+
+## Build & Test
+
+```bash
+# Compile
+mvn clean compile
+
+# Run all tests
+mvn test
+
+# Run with verbose output
+mvn test -X
+
+# View HTML report (if generated)
+open target/cucumber-reports.html
+```
+
 ## Project Structure
 
 ```
@@ -20,14 +44,6 @@ src/
 pom.xml                                  - Maven configuration
 ```
 
-## Technologies
-
-- **Java 11** - Core language
-- **Cucumber 7.14.0** - BDD framework
-- **JUnit 5** - Testing framework
-- **Jackson 2.17.0** - XML parsing
-- **Maven** - Build management
-
 ## Test Data
 
 The project includes a sample `pain.xml` with:
@@ -45,22 +61,6 @@ Format Validation:
 
 Checksum Validation:
   ISO 13616 mod-97 algorithm for IBAN verification
-```
-
-## Build & Test
-
-```bash
-# Compile
-mvn clean compile
-
-# Run all tests
-mvn test
-
-# Run with verbose output
-mvn test -X
-
-# View HTML report (if generated)
-open target/cucumber-reports.html
 ```
 
 ## References
