@@ -20,6 +20,8 @@ mvn test
 # Run with verbose output
 mvn test -X
 
+#If step definitions are not found, run PainValidationCucumberTest directly
+
 # View HTML report (if generated)
 open target/cucumber-reports.html
 ```

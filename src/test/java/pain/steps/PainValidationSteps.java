@@ -50,11 +50,11 @@ public class PainValidationSteps {
         totalIbanCount = 0;
     }
 
-    @Given("I have loaded the pain.xml file")
-    public void loadPainXmlFile() throws Exception {
+    @Given("I have loaded the {string} file")
+    public void loadPainXmlFile(String file) throws Exception {
         XmlMapper mapper = new XmlMapper();
-        File xmlFile = new File("src/main/resources/pain.xml");
-        assertTrue(xmlFile.exists(), "pain.xml file should exist");
+        File xmlFile = new File("src/main/resources/" + file + ".xml");
+        assertTrue(xmlFile.exists(), "file should exist");
         document = mapper.readValue(xmlFile, Document.class);
         assertNotNull(document, "Document should be loaded");
     }
@@ -251,7 +251,7 @@ public class PainValidationSteps {
         String debtrIbanValue = pmtInf.getDbtrAcct().getId().getIban();
         assertNotNull(debtrIbanValue, "Debtor IBAN should not be null");
         assertFalse(debtrIbanValue.isEmpty(), "Debtor IBAN should not be empty");
-        assertTrue(debtrIbanValue.matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]+$"),
+        assertTrue(debtrIbanValue.matches("^[A-Z]{2}[0-9]{2}[0-9]+$"),
             "Debtor IBAN format should be valid");
         assertTrue(debtrIbanValue.length() >= 15 && debtrIbanValue.length() <= 34,
             "Debtor IBAN length should be between 15 and 34");
@@ -260,7 +260,7 @@ public class PainValidationSteps {
             String cdtrIbanValue = txn.getCdtrAcct().getId().getIban();
             assertNotNull(cdtrIbanValue, "Creditor IBAN should not be null");
             assertFalse(cdtrIbanValue.isEmpty(), "Creditor IBAN should not be empty");
-            assertTrue(cdtrIbanValue.matches("^[A-Z]{2}[0-9]{2}[A-Z0-9]+$"),
+            assertTrue(cdtrIbanValue.matches("^[A-Z]{2}[0-9]{2}[0-9]+$"),
                 "Creditor IBAN format should be valid");
             assertTrue(cdtrIbanValue.length() >= 15 && cdtrIbanValue.length() <= 34,
                 "Creditor IBAN length should be between 15 and 34");

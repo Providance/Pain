@@ -1,7 +1,7 @@
 Feature: PAIN.001 Validation
 
   Background:
-    Given I have loaded the "pain" file
+    Given I have loaded the "wrong_pain" file
 
   Scenario: Validate debtor total amount has at least 2 digits
     When I parse the document
