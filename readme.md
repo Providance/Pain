@@ -1,27 +1,5 @@
 # PAIN.001 Payment Validation Framework
 
-## Quick Start
-
-### Run All Tests
-```bash
-mvn test
-```
-
-### Run Direct Test (Console Output)
-```bash
-mvn exec:java -Dexec.mainClass="pain.MainTest"
-```
-
-## Test Scenarios
-
-1. **Extract and validate debtor IBAN** - Validates debtor account IBAN format and checksum
-2. **Extract and validate creditor IBANs** - Validates all creditor account IBANs
-3. **Validate all IBANs in payment** - Comprehensive IBAN validation with success rate
-4. **Validate debtor amount has at least 2 digits** - Ensures amount values are meaningful
-5. **Validate debtor amount equals sum of credits** - Payment reconciliation check
-6. **Validate transaction date is not in the future** - Date validation
-7. **Validate XML according to ISO 20022** - Complete compliance check
-
 ## Project Structure
 
 ```
@@ -126,7 +104,7 @@ Batch Processing: Enabled
 
 ### Document Structure Overview
 
-This PAIN.001.001.11 message represents a **Customer Credit Transfer Initiation** - a standardized format for initiating cross-border SEPA payments.
+The pain.xml file represents a **Customer Credit Transfer Initiation** - a standardized format for initiating cross-border SEPA payments.
 
 ### Message Header (GrpHdr - Group Header)
 
